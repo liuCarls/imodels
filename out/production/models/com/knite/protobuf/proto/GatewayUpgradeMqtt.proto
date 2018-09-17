@@ -1,0 +1,24 @@
+syntax = "proto2";
+
+option java_outer_classname = "GatewayUpgradeMqttProto";
+
+option optimize_for = LITE_RUNTIME;
+
+// 网管模块升级信息
+message GatewayUpgradeMqtt {
+  required int32 GatewayType = 1;// 网关型号
+  required int32 VersionMqtt = 2;// Mqtt通讯模块版本号
+  required string Md5 = 3;// 校验串，最多50字符
+  required int32 FileSize = 4;// 配置文件大小
+  required string Url = 5;// Url地址，最多300字符
+}
+
+// 网管模块升级回复
+message GatewayUpgradeMqttResp {
+  required int32 GatewayType = 1;// 网关型号
+  required int32 VersionMqtt = 2;// Mqtt通讯模块版本号
+  required string Md5 = 3;// 校验串，最多50字符
+  required int32 FileSize = 4;// 配置文件大小
+  required bool Succeed = 5;// 升级结果，true-成功；false-失败
+  required string ResultDesc = 6;// 结果描述，最多500字符
+}

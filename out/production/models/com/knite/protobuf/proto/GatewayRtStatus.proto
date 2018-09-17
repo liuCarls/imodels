@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+option java_outer_classname = "GatewayRtStatusProto";
+
+option optimize_for = LITE_RUNTIME;
+
+// 网关运行状态对象
+message GatewayRtStatus {
+  required string SN = 1;// 设备唯一性标识，最多20字符
+  required int32 RecTime_Seconds = 2;// 数据时间，1970-1-1开始的总秒数
+  required int32 GatewayType = 3;// 网关型号
+
+  optional string VersionGateway = 4;// 网关版本号，最多50字符
+  optional int32 VersionMqtt = 5;// Mqtt通讯模块版本号
+  optional int32 NetMode = 6;// 联网方式：0-未知，1-SIM，2-宽带
+  optional int32 SimSignal = 7;// Sim卡信号值
+  optional float CpuUsage = 8;// CPU使用率
+  optional float MemUsage = 9;// 内存使用率
+  optional float StorageFree = 10;// 可用存储空间
+  optional string Iccid = 11;// Sim卡的ICCID，最多30字符
+  optional string ExtendParam = 12;// 扩展参数，最多500字符
+}
