@@ -20,6 +20,7 @@
         <!-- 要切入的对象 -->
         <aop:pointcut expression="execution(* com.carl.aop.exm01.*.chifan(..))" id="chifan"/>
         <aop:pointcut expression="execution(* com.carl.aop.exm01.*.shijiao(..))" id="shijiao"/>
+        <!-- 方式四：基于<aop:aspect>的方式 -->
         <!-- 切入点 -->
         <aop:aspect id="ha" ref="qiemian"><!-- 切面类  -->
             <!--  <aop:之前before、之后after... method="切面类中的方法" pointcut-ref="上面的切入的对象"/>  -->

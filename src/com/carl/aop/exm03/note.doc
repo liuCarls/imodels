@@ -1,0 +1,14 @@
+================
+Exception in thread "main" org.springframework.aop.framework.adapter.UnknownAdviceTypeException:
+Advice object [com.carl.aop.exm03.Qiemian@3857f613] is neither a supported subinterface of
+[org.aopalliance.aop.Advice] nor an [org.springframework.aop.Advisor]
+
+------
+
+
+
+实现通知的类直接Advice不可以，需要实现MethodBeforeAdvice
+
+
+
+================

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.3.xsd
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.3.xsd"
+    default-autowire="byName"
+>
+    <!-- 首相要实例化目标对象类和切面类 -->
+    <bean id="chinese" class="com.carl.aop.exm03.Chinese"></bean>
+    <bean id="american" class="com.carl.aop.exm03.American"></bean>
+    <bean id="qiemianAdvice" class="com.carl.aop.exm03.Qiemian"></bean>
+
+    <aop:config proxy-target-class="true">
+        <!-- 命名切点 -->
+        <aop:pointcut expression="bean(chinese)" id="beforeAdvice" />
+        <!--  -->
+
+        <!-- 方式三： 基于<aop:advisor>的方式 -->
+        <!-- 用于把一个Advice和一个Pointcut组合起来。一个advisor标签对应的
+            就是一个Advisor接口的实现类，默认是DefaultBeanFactoryPointcutAdvisor实现。-->
+        <aop:advisor advice-ref="qiemianAdvice" order="1" pointcut-ref="beforeAdvice" />
+        <!-- advice-ref属性用于指定一个org.aopalliance.aop.Advice实现，
+            该接口没有任何内容，只是起到标记作用，用于标记某个类是Advice。 -->
+        <!-- pointcut-ref用于指定一个通过已经存在的Pointcut定义，
+            当然也可以直接通过pointcut属性指定对应的Pointcut表达式。如果在
+            一个config元素下既定义了aspect，又定义了advisor，那advisor必
+            须定义在aspect之前。-->
+    </aop:config>
+
+
+</beans>
