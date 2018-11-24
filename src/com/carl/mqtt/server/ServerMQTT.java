@@ -16,6 +16,7 @@ public class ServerMQTT {
     public static final String HOST = "tcp://192.168.13.101:1883";
 //    public static final String HOST = "tcp://192.168.195.129:1883";
     //定义一个主题
+//    public static final String TOPIC = "gatecloud/gateway/general";
     public static final String TOPIC = "gatecloud/gateway/general";
     //定义MQTT的ID，可以在MQTT服务配置中指定
     private static final String clientid = "server11";
@@ -52,7 +53,7 @@ public class ServerMQTT {
         // 设置会话心跳时间
         options.setKeepAliveInterval(20);
         try {
-//            client.setCallback(new ClientPushCallback());
+//            client.setCallback(new CPushCallback());
 
             client.connect(options);
 

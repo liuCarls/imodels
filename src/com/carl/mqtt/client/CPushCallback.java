@@ -1,8 +1,10 @@
-package com.carl.mqtt.server;
+package com.carl.mqtt.client;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+import java.util.Arrays;
 
 /**
  * 发布消息的回调类
@@ -21,7 +23,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
  *  由 MqttClient.connect 激活此回调。
  *
  */
-public class PushCallback implements MqttCallback {
+public class CPushCallback implements MqttCallback {
 
     public void connectionLost(Throwable cause) {
         // 连接丢失后，一般在这里面进行重连
@@ -34,26 +36,31 @@ public class PushCallback implements MqttCallback {
 
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         // subscribe后得到的消息会执行到这里面
-        System.out.println("接收消息主题 : " + topic);
-        System.out.println("接收消息Qos : " + message.getQos());
-//        System.out.println("接收消息内容 : " + PersonEntity.Person.parseFrom(message.getPayload()).toString());
-        System.out.println("接收消息内容 : " + message.getPayload().toString());
-//        byte[] byteArray = message.getPayload();
-////        for(byte b : byteArray){
-////            System.out.print(b+" ");
-////        }
-////        System.out.println();
-//        byte[] lBytes = new byte[byteArray.length-28];
-//        System.arraycopy(byteArray, 28, lBytes, 0, byteArray.length-28);
-////        for(byte b : lBytes){
-////            System.out.print(b+" ");
-////        }
-//        System.out.println();
-//        GatewayRtStatus.GatewayRtInfo gwInfo = GatewayRtStatus.GatewayRtInfo.parseFrom(lBytes);
-////        GatewayRtStatus.GatewayRtInfoCollection collection = GatewayRtStatus.GatewayRtInfoCollection.parseFrom(lBytes);
-//        System.out.println("Parser01:\t"+gwInfo.toString());
+        try {
+            System.out.print("接收消息主题 : " + topic+"\t");
+            System.out.print("接收消息Qos : " + message.getQos()+"\t");
+            System.out.println("接收消息内容 : " + new String(message.getPayload()));
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
 
 
 
     }
+
+//    public static int byteArrayToInt(byte[] bs) {
+//        int len = bs.length;
+//        len = len>4?4:len; //如果字节长度大于4,则转换byte数组的前4个字节
+//        int o=0;
+//        for(int i=1;i<=len;i++){
+//            if(i==1){
+//                o=(bs[len-i]&0xFF) << 8*(i-1);
+//            } else{
+//                o = o|((bs[len-i]&0xFF) << 8*(i-1));
+//            }
+//        }
+//        return o;
+//    }
 }

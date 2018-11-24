@@ -9,6 +9,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by user on 2018/6/23.
@@ -24,9 +25,13 @@ public class Test {
 //            Date d = new Date(((long)dd)*1000);
 //            DateFormat df = new SimpleDateFormat();
 //            System.out.println(df.format(d));
+            String uuid = UUID.randomUUID().toString();//转化为String对象
 
+System.out.println(uuid);//打印UUID
 //            test2();
-            uuidT();
+            String str = "gf2001010005";
+            System.out.println(str.toUpperCase());
+//            uuidT();
 
         } catch (Exception e) {
             e.printStackTrace();
