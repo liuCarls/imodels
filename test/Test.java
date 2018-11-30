@@ -1,13 +1,15 @@
-package com.carl;
-
 import com.carl.ibatis.domain.User;
 //import org.apache.commons.codec.digest.DigestUtils;
 import sun.misc.BASE64Encoder;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,12 +29,22 @@ public class Test {
 //            System.out.println(df.format(d));
             String uuid = UUID.randomUUID().toString();//转化为String对象
 
-System.out.println(uuid);//打印UUID
+            System.out.println(uuid);//打印UUID
 //            test2();
-            String str = "gf2001010005";
+            String str = "{xxx}>50";
             System.out.println(str.toUpperCase());
 //            uuidT();
+            System.out.println(str.replaceAll("\\{.*\\}","20"));
+            ScriptEngineManager manager = new ScriptEngineManager();
+            ScriptEngine se = manager.getEngineByName("js");
+            if ((Boolean) se.eval(str.replaceAll("\\{.*\\}", "200"))) {
+                System.out.println("success");
+            }
+            SimpleDateFormat sDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = sDateFormat.parse("2018-11-28 08:18:24");
+            System.out.println("2018-11-28 08:18:24".substring(0,4));
 
+            System.out.println(date);
         } catch (Exception e) {
             e.printStackTrace();
         } 

@@ -2,9 +2,12 @@ package com.carl.mqtt.client;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.internal.wire.MqttConnect;
 
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * 发布消息的回调类
@@ -24,43 +27,54 @@ import java.util.Arrays;
  *
  */
 public class CPushCallback implements MqttCallback {
+    ClientMQTT server;
+    public CPushCallback() {
 
-    public void connectionLost(Throwable cause) {
-        // 连接丢失后，一般在这里面进行重连
-        System.out.println("连接断开，可以做重连");
     }
 
+    public CPushCallback(ClientMQTT server) {
+        this.server = server;
+    }
+    @Override
+    public void connectionLost(Throwable cause) {
+        // 连接丢失后，一般在这里面进行重连
+//        System.out.println(Thread.currentThread().getName()+"连接断开，可以做重连");
+        System.out.println("[MQTT] 连接断开，5S之后尝试重连...");
+        int i=0;
+        while(true) {
+            try {
+                Thread.sleep(5*1000);
+                System.out.println("第i次重连"+(++i));
+                server.reConnect();
+                break;
+            } catch (Exception e) {
+                e.printStackTrace();
+                continue;
+            }
+        }
+        System.out.println("重连完成...");
+    }
+    @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
         System.out.println("deliveryComplete---------" + token.isComplete());
     }
-
+    @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         // subscribe后得到的消息会执行到这里面
         try {
-            System.out.print("接收消息主题 : " + topic+"\t");
-            System.out.print("接收消息Qos : " + message.getQos()+"\t");
-            System.out.println("接收消息内容 : " + new String(message.getPayload()));
-
+            System.out.print(Thread.currentThread().getName()+"接收消息主题 : " + topic+"\t");
+            System.out.print(Thread.currentThread().getName()+"接收消息Qos : " + message.getQos()+"\t");
+            System.out.println(Thread.currentThread().getName()+"接收消息内容 : " + new String(message.getPayload()));
+//            Thread.sleep(1000);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             e.printStackTrace();
         }
-
-
-
-    }
-
-//    public static int byteArrayToInt(byte[] bs) {
-//        int len = bs.length;
-//        len = len>4?4:len; //如果字节长度大于4,则转换byte数组的前4个字节
-//        int o=0;
-//        for(int i=1;i<=len;i++){
-//            if(i==1){
-//                o=(bs[len-i]&0xFF) << 8*(i-1);
-//            } else{
-//                o = o|((bs[len-i]&0xFF) << 8*(i-1));
-//            }
+//        double r = Math.random();
+//        System.out.println("sv is:"+server.sv+" r is:"+r+" re:"+(r > server.sv));
+//        if (r > server.sv) {
+//            server.sv += 0.1;
+//            System.out.println(Thread.currentThread().getName()+"throw out the error");
+//            throw new Exception("TEst"); //最好不要在这个方法里面抛出异常.
 //        }
-//        return o;
-//    }
+    }
 }
