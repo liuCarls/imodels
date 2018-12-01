@@ -8,12 +8,12 @@ import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 /**
  * Created by user on 2018/6/4.
  */
-public class ClientMQTT1 {
+public class ClientMQTT2 {
 //    public static final String HOST = "tcp://192.168.13.98:1883";
     public static final String HOST = "tcp://192.168.13.101:1883";
 
 //    public static final String HOST = "tcp://192.168.8.217:1883";
-    public static final String TOPIC = "topic11";
+
 //    public static final String TOPIC = "gatecloud/#";
     //                                  gatecloud/cloud/general/gw130303321
     private static final String clientid = "client12";
@@ -50,17 +50,22 @@ public class ClientMQTT1 {
 //            options.setSocketFactory();
 
             // 设置回调
-            client.setCallback(new CPushCallback());
+            client.setCallback(new C2PushCallback());
             //设置超时时间
 //            client.setTimeToWait(10000);
 //            client.getTimeToWait();
 
             client.connect(options);
-
+            String TOPIC = "$SYS/broker/retained messages/count";
+            String TOPIC1 = "$SYS/broker/clients/maximum";
+            String TOPIC2 = "$SYS/broker/clients/connected";
+            String TOPIC3 = "$SYS/broker/load/publish/dropped/15";
+            String TOPIC4 = "$SYS/broker/messages/inflight";
+            String TOPIC5 = "$SYS/broker/messages/stored";
             //订阅消息
-            int[] Qos  = {0};
-            String[] topic1 = {TOPIC};
-            client.subscribe(topic1, Qos);
+            int[] Qos  = {2,2,2,2,2,2};
+            String[] topics = {TOPIC,TOPIC1, TOPIC2, TOPIC3, TOPIC4, TOPIC5};
+            client.subscribe(topics, Qos);
 //            MqttTopic topic = client.getTopic(TOPIC);
 
 
@@ -70,7 +75,7 @@ public class ClientMQTT1 {
     }
 
     public static void main(String[] args) throws MqttException {
-        ClientMQTT1 client = new ClientMQTT1();
+        ClientMQTT2 client = new ClientMQTT2();
         client.start();
     }
 }
